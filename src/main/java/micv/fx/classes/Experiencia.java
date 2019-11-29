@@ -2,11 +2,15 @@ package micv.fx.classes;
 
 import java.time.LocalDate;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+@XmlType
 public class Experiencia {
 
 	private ObjectProperty<LocalDate> desde = new SimpleObjectProperty<LocalDate>();
@@ -25,6 +29,7 @@ public class Experiencia {
 		return this.desde;
 	}
 	
+	@XmlAttribute
 	public final LocalDate getDesde() {
 		return this.desdeProperty().get();
 	}
@@ -37,6 +42,7 @@ public class Experiencia {
 		return this.hasta;
 	}
 	
+	@XmlAttribute
 	public final LocalDate getHasta() {
 		return this.hastaProperty().get();
 	}
@@ -49,6 +55,7 @@ public class Experiencia {
 		return this.denominacion;
 	}
 	
+	@XmlAttribute
 	public final String getDenominacion() {
 		return this.denominacionProperty().get();
 	}
@@ -61,7 +68,7 @@ public class Experiencia {
 		return this.empleador;
 	}
 	
-
+	@XmlAttribute
 	public final String getEmpleador() {
 		return this.empleadorProperty().get();
 	}

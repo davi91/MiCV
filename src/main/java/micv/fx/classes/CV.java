@@ -2,6 +2,10 @@ package micv.fx.classes;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -9,6 +13,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+@XmlRootElement
 public class CV {
 
 	private ObjectProperty<Personal> personal = new SimpleObjectProperty<Personal>();
@@ -32,6 +37,7 @@ public class CV {
 	}
 	
 
+	@XmlElement
 	public final Personal getPersonal() {
 		return this.personalProperty().get();
 	}
@@ -47,6 +53,7 @@ public class CV {
 	}
 	
 
+	@XmlElement
 	public final ObservableList<Titulo> getFormacion() {
 		return this.formacionProperty().get();
 	}
@@ -62,6 +69,7 @@ public class CV {
 	}
 	
 
+	@XmlElement
 	public final ObservableList<Experiencia> getExperiencia() {
 		return this.experienciaProperty().get();
 	}
@@ -77,6 +85,7 @@ public class CV {
 	}
 	
 
+	@XmlElement
 	public final ObservableList<Idioma> getHabilidades() {
 		return this.habilidadesProperty().get();
 	}
@@ -92,6 +101,7 @@ public class CV {
 	}
 	
 
+	@XmlElement
 	public final Contacto getContacto() {
 		return this.contactoProperty().get();
 	}

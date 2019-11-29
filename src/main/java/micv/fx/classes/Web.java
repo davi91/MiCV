@@ -1,8 +1,12 @@
 package micv.fx.classes;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+@XmlType
 public class Web {
 
 	private StringProperty web = new SimpleStringProperty();
@@ -16,6 +20,7 @@ public class Web {
 	}
 	
 
+	@XmlAttribute(name="url")
 	public final String getWeb() {
 		return this.webProperty().get();
 	}

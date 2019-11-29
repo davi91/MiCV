@@ -14,7 +14,7 @@ public class MiCVApp extends Application {
 		
 		mainController = new MainController();
 		
-		Scene scene = new Scene(mainController.getRootView(), 640, 480);
+		Scene scene = new Scene(mainController.getRootView(), 800, 600);
 		primaryStage.setTitle("MiCV");
 		primaryStage.getIcons().add(new Image(getClass().getResource("/images/cv64x64.png").toString()));
 		primaryStage.setScene(scene);

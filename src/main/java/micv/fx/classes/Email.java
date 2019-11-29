@@ -1,8 +1,12 @@
 package micv.fx.classes;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+@XmlType
 public class Email {
 
 	private StringProperty email = new SimpleStringProperty();
@@ -16,6 +20,7 @@ public class Email {
 	}
 	
 
+	@XmlAttribute(name="direccion")
 	public final String getEmail() {
 		return this.emailProperty().get();
 	}

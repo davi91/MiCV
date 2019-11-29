@@ -1,11 +1,15 @@
 package micv.fx.classes;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 
+@XmlType
 public class Telefono {
 
 	public enum TipoTelefono {
@@ -27,6 +31,7 @@ public class Telefono {
 	}
 	
 
+	@XmlAttribute
 	public final String getNumero() {
 		return this.numeroProperty().get();
 	}
@@ -41,6 +46,7 @@ public class Telefono {
 	}
 	
 
+	@XmlAttribute
 	public final TipoTelefono getTipo() {
 		return this.tipoProperty().get();
 	}
