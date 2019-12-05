@@ -22,6 +22,10 @@ public class Telefono {
 	private StringProperty numero = new SimpleStringProperty();
 	private ObjectProperty<TipoTelefono> tipo = new SimpleObjectProperty<>();
 	
+	public Telefono() {
+		
+	}
+	
 	public Telefono(String numero) {
 		this.numero.set(numero);
 	}

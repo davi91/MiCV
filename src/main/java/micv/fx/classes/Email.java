@@ -11,6 +11,8 @@ public class Email {
 
 	private StringProperty email = new SimpleStringProperty();
 
+	public Email() {}
+	
 	public Email(String email) {
 		this.email.set(email);
 	}

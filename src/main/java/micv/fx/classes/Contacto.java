@@ -18,6 +18,8 @@ public class Contacto {
 	private ListProperty<Email> emails = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
 	private ListProperty<Web> webs = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
 	
+	public Contacto() {}
+	
 	public Contacto(ArrayList<Telefono> telefonos, ArrayList<Email> emails, ArrayList<Web> webs) {
 		this.telefonos.addAll(telefonos);
 		this.emails.addAll(emails);

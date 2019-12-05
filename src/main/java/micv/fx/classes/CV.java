@@ -24,6 +24,10 @@ public class CV {
 
 	private ObjectProperty<Contacto> contacto = new SimpleObjectProperty<Contacto>();
 
+	public CV() {
+		
+	}
+	
 	public CV(Personal personal, ArrayList<Titulo> titutlos, ArrayList<Experiencia> experiencias, ArrayList<Idioma> idiomas, Contacto contacto) {
 		this.personal.set(personal);
 		this.contacto.set(contacto);

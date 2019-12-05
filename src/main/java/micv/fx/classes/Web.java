@@ -11,6 +11,10 @@ public class Web {
 
 	private StringProperty web = new SimpleStringProperty();
 
+	public Web() {
+		
+	}
+	
 	public Web(String web) {
 		this.web.set(web);
 	}

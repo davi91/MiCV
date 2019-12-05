@@ -9,6 +9,8 @@ public class Nacionalidad {
 
 	private StringProperty denominacion = new SimpleStringProperty();
 
+	public Nacionalidad() {}
+	
 	public Nacionalidad(String denominacion) {
 		this.denominacion.set(denominacion);
 	}

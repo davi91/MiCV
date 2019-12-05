@@ -75,13 +75,13 @@ public class PersonalController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		getPersonal().nombreProperty().bindBidirectional(nombreTxt.textProperty());
-		getPersonal().nombreProperty().bindBidirectional(nombreTxt.textProperty());
 		getPersonal().apellidosProperty().bindBidirectional(apellidosTxt.textProperty());
 		getPersonal().codigoPostalProperty().bindBidirectional(codTxt.textProperty());
 		getPersonal().localidadProperty().bindBidirectional(localTxt.textProperty());
 		getPersonal().fechaNacimientoProperty().bindBidirectional(datePicker.valueProperty());
 		nacionalidadList.itemsProperty().bind(getPersonal().nacionaliadesProperty());
 		getPersonal().paisProperty().bind(paisCbox.valueProperty());
+		
 		
 		addBt.setOnAction( evt -> onAddAction() );
 		removeBt.setOnAction( evt -> onRemoveAction() );
@@ -107,6 +107,12 @@ public class PersonalController implements Initializable {
 	
 
 	public final void setPersonal(final Personal personal) {
+		getPersonal().nombreProperty().unbind();
+		getPersonal().apellidosProperty().unbind();
+		getPersonal().codigoPostalProperty().unbind();
+		
+		nombreTxt.textProperty().bind(getPersonal().nombreProperty());
+		
 		this.personalProperty().set(personal);
 	}
 	

@@ -21,6 +21,8 @@ public class Conocimiento {
 	
 	private StringProperty denominacion = new SimpleStringProperty("");
 	private ObjectProperty<Nivel> nivel = new SimpleObjectProperty<Nivel>();
+
+	public Conocimiento() {}
 	
 	public Conocimiento(Nivel nivel, String denominacion) {
 		this.denominacion.set(denominacion);

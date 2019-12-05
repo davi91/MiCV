@@ -1,28 +1,77 @@
 package micv.fx.main;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import micv.fx.classes.CV;
+import micv.fx.classes.Personal;
 import micv.fx.tabs.ConocimientosController;
 import micv.fx.tabs.ContactoController;
 import micv.fx.tabs.ExperienciaController;
 import micv.fx.tabs.FormacionController;
 import micv.fx.tabs.PersonalController;
+import micv.fx.utils.JAXBUtils;
 
 public class MainController implements Initializable {
 
+	// View : FXML
+	//-------------------------------------------------------------------------
+	
 	@FXML
 	private BorderPane view;
 	
 	@FXML 
 	private TabPane tabRoot;
+
+    @FXML
+    private MenuItem m_nuevo;
+
+    @FXML
+    private MenuItem m_abrir;
+
+    @FXML
+    private MenuItem m_guradar;
+
+    @FXML
+    private MenuItem m_guardarOtro;
+
+    @FXML
+    private MenuItem m_salir;
+
+    @FXML
+    private Tab tab_personal;
+
+    @FXML
+    private Tab tab_contacto;
+
+    @FXML
+    private Tab tab_formacion;
+
+    @FXML
+    private Tab tab_experiencia;
+
+    @FXML
+    private Tab tab_conocimientos;
 	
+  //-------------------------------------------------------------------------
+    
+    // Model
+    // Básicamente vamos a tener el objeto CV
+    private ObjectProperty<CV> cv = new SimpleObjectProperty<CV>();
+    
 	// Tabs controllers
 	private PersonalController personalController;
 	private ContactoController contactoController;
@@ -43,26 +92,67 @@ public class MainController implements Initializable {
 		// Debemos cargar ahora todos las pestañas
 		try {
 			personalController = new PersonalController();
-			tabRoot.getTabs().get(0).setContent(personalController.getRootView());
+			tab_personal.setContent(personalController.getRootView());
 			
 			contactoController = new ContactoController();
-			tabRoot.getTabs().get(1).setContent(contactoController.getRootView());
+			tab_contacto.setContent(contactoController.getRootView());
 
 			formacionController = new FormacionController();
-			tabRoot.getTabs().get(2).setContent(formacionController.getRootView());
+			tab_formacion.setContent(formacionController.getRootView());
 			
 			experienciaController = new ExperienciaController();
-			tabRoot.getTabs().get(3).setContent(experienciaController.getRootView());
+			tab_experiencia.setContent(experienciaController.getRootView());
 			
 			conocimientosController = new ConocimientosController();
-			tabRoot.getTabs().get(4).setContent(conocimientosController.getRootView());
+			tab_conocimientos.setContent(conocimientosController.getRootView());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		// Ahora cargamos los eventos de los menus
+		m_abrir.setOnAction( evt -> onMenuOpen() );
+		
 	}
 	
+	private void onMenuOpen() {
+		
+		FileChooser browser = new FileChooser();
+		browser.getExtensionFilters().add(new ExtensionFilter("CV", "*.cv"));
+		browser.setTitle("Abrir CV");
+		browser.setInitialDirectory(new File(System.getProperty("user.dir") + "/src/main/java/files"));
+		
+		File file = browser.showOpenDialog(getRootView().getScene().getWindow());
+		
+		if( file != null ) {
+			
+			// Ahora podemos empezar a cargar el archivo
+			// Usamos el JAXB para leer el XML
+			
+			try {
+				
+				CV myCV = JAXBUtils.load(CV.class, file);
+				
+				// Ahora lo cargamos en nuestro ObjectProperty
+				cv.set(myCV);
+				loadMainData();
+				
+			} catch (Exception e) {
+				
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void loadMainData() {
+		
+		// Cargamos todos los datos
+		Personal personal = cv.get().getPersonal();
+		personalController.setPersonal(personal);
+		System.out.println(personal.getDireccion());
+	}
+
 	public BorderPane getRootView() {
 		return view;
 	}
