@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import micv.fx.classes.CV;
+import micv.fx.classes.Contacto;
 import micv.fx.classes.Personal;
 import micv.fx.tabs.ConocimientosController;
 import micv.fx.tabs.ContactoController;
@@ -112,15 +113,38 @@ public class MainController implements Initializable {
 		
 		// Ahora cargamos los eventos de los menus
 		m_abrir.setOnAction( evt -> onMenuOpen() );
+		m_guardarOtro.setOnAction( evt -> onMenuSaveOther() );
 		
 	}
 	
+	private void onMenuSaveOther() {
+		
+		FileChooser browser = new FileChooser();
+		
+		browser.setTitle("Guardar CV como....");
+		browser.getExtensionFilters().add(new ExtensionFilter("CV", "*.cv"));
+		browser.setInitialFileName("nuevoCV.cv");
+		browser.setInitialDirectory(new File(System.getProperty("user.dir") + "/files"));
+		
+		File file = browser.showSaveDialog(getRootView().getScene().getWindow());
+		
+		if( file != null ) {
+			
+			try {
+				JAXBUtils.save(cv.get(), file);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private void onMenuOpen() {
 		
 		FileChooser browser = new FileChooser();
 		browser.getExtensionFilters().add(new ExtensionFilter("CV", "*.cv"));
 		browser.setTitle("Abrir CV");
-		browser.setInitialDirectory(new File(System.getProperty("user.dir") + "/src/main/java/files"));
+		browser.setInitialDirectory(new File(System.getProperty("user.dir") + "/files"));
 		
 		File file = browser.showOpenDialog(getRootView().getScene().getWindow());
 		
@@ -148,9 +172,12 @@ public class MainController implements Initializable {
 	private void loadMainData() {
 		
 		// Cargamos todos los datos
+		
 		Personal personal = cv.get().getPersonal();
 		personalController.setPersonal(personal);
-		System.out.println(personal.getDireccion());
+		
+		Contacto contacto = cv.get().getContacto();
+		contactoController.setContacto(contacto);
 	}
 
 	public BorderPane getRootView() {

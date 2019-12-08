@@ -5,9 +5,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.cell.*?> 
 
 <VBox fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -15,13 +16,14 @@
          <content>
             <HBox prefHeight="100.0" spacing="5.0">
                <children>
-                  <TableView fx:id="tlfTable" prefHeight="200.0" HBox.hgrow="ALWAYS">
+                  <TableView fx:id="tlfTable" editable="true" prefHeight="200.0" HBox.hgrow="ALWAYS">
                     <columns>
-                      <TableColumn minWidth="120.0" prefWidth="-1.0" text="Número" >
+                      <TableColumn minWidth="120.0" prefWidth="-1.0" text="Número">
+                      	  <cellFactory><TextFieldTableCell fx:factory="forTableColumn" /></cellFactory>
                            <cellValueFactory><PropertyValueFactory property="numero" />
 	       	 			   </cellValueFactory>
 	       	 		  </TableColumn>
-                      <TableColumn minWidth="120.0" prefWidth="-1.0" text="Tipo" >
+                      <TableColumn fx:id="tipoColumn" minWidth="120.0" prefWidth="-1.0" text="Tipo">
                       	   <cellValueFactory><PropertyValueFactory property="tipo" />
 	       	 			   </cellValueFactory>
                       </TableColumn>
@@ -43,9 +45,10 @@
          <content>
             <HBox prefHeight="100.0" spacing="5.0">
                <children>
-                  <TableView fx:id="emailTable" prefHeight="200.0" HBox.hgrow="ALWAYS">
+                  <TableView fx:id="emailTable" editable="true" prefHeight="200.0" HBox.hgrow="ALWAYS">
                      <columns>
-                        <TableColumn minWidth="120.0" prefWidth="300.0" text="E-mail" >
+                        <TableColumn minWidth="120.0" prefWidth="300.0" text="E-mail">
+                           <cellFactory><TextFieldTableCell fx:factory="forTableColumn" /></cellFactory>
                            <cellValueFactory><PropertyValueFactory property="email" />
 	       	 			   </cellValueFactory>
                         </TableColumn>
@@ -67,9 +70,10 @@
          <content>
             <HBox prefHeight="100.0" spacing="5.0">
                <children>
-                  <TableView fx:id="webTable" prefHeight="200.0" HBox.hgrow="ALWAYS">
+                  <TableView fx:id="webTable" editable="true" prefHeight="200.0" HBox.hgrow="ALWAYS">
                      <columns>
-                        <TableColumn minWidth="120.0" prefWidth="300.0" text="URL" >
+                        <TableColumn minWidth="120.0" prefWidth="300.0" text="URL">
+                        	    <cellFactory><TextFieldTableCell fx:factory="forTableColumn" /></cellFactory>
                                 <cellValueFactory><PropertyValueFactory property="web" />
 	       	 			   		</cellValueFactory>
                         </TableColumn>

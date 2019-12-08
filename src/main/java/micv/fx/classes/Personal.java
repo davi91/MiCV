@@ -2,6 +2,7 @@ package micv.fx.classes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -29,7 +30,7 @@ public class Personal {
 	private StringProperty codigoPostal = new SimpleStringProperty("");
 	private StringProperty localidad = new SimpleStringProperty("");
 	private StringProperty pais = new SimpleStringProperty("");
-	private ListProperty<Nacionalidad> nacionaliades = new SimpleListProperty<Nacionalidad>(FXCollections.observableList(new ArrayList<Nacionalidad>()));
+	private ListProperty<Nacionalidad> nacionalidades = new SimpleListProperty<Nacionalidad>(FXCollections.observableList(new ArrayList<Nacionalidad>()));
 	
 	public Personal() {}
 	
@@ -45,7 +46,7 @@ public class Personal {
 		this.codigoPostal.set(codigoPostal);
 		this.localidad.set(localidad);
 		this.pais.set(pais);
-		this.nacionaliades.addAll(nacionalidades);
+		this.nacionalidades.addAll(nacionalidades);
 	}
 	
 	public final StringProperty identificacionProperty() {
@@ -154,11 +155,11 @@ public class Personal {
 	}
 
 	public final ListProperty<Nacionalidad> nacionaliadesProperty() {
-		return this.nacionaliades;
+		return this.nacionalidades;
 	}
 	
 
-	@XmlElement
+	@XmlElement(name = "nacionalidades")
 	public final ObservableList<Nacionalidad> getNacionaliades() {
 		return this.nacionaliadesProperty().get();
 	}

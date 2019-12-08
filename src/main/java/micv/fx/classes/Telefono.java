@@ -1,5 +1,8 @@
 package micv.fx.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
@@ -7,6 +10,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import micv.fx.classes.Telefono.TipoTelefono;
 
 
 @XmlType
@@ -24,6 +30,20 @@ public class Telefono {
 	
 	public Telefono() {
 		
+	}
+	
+	public Telefono(String numero, TipoTelefono tipo) {
+		this.numero.set(numero);
+		this.tipo.set(tipo);
+	}
+	
+	public static ObservableList<TipoTelefono> getTiposTelefono() {
+		
+		ObservableList<TipoTelefono> tiposTelefono = FXCollections.observableArrayList(new ArrayList<>());
+		tiposTelefono.add(TipoTelefono.DOMICILIO);
+		tiposTelefono.add(TipoTelefono.MOVIL);
+		
+		return tiposTelefono;
 	}
 	
 	public Telefono(String numero) {
