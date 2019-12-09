@@ -115,7 +115,9 @@ public class MainController implements Initializable {
 		// bindeamos directamente a las listas de las pestañas, ya
 		// que no forman parte un único objeto
 		cv.set(new CV());
-		formacionController.titulosProperty().bindBidirectional(cv.get().formacionProperty());
+		cv.get().setPersonal(new Personal());
+		cv.get().setContacto(new Contacto());
+		loadMainData();
 		
 		// Ahora cargamos los eventos de los menus
 		m_abrir.setOnAction( evt -> onMenuOpen() );
