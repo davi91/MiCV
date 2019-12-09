@@ -1,8 +1,14 @@
 package micv.fx.classes;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
+import com.sun.xml.txw2.annotation.XmlElement;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+@XmlType
 public class Idioma extends Conocimiento {
 
 	private StringProperty certificacion = new SimpleStringProperty();
@@ -19,6 +25,7 @@ public class Idioma extends Conocimiento {
 	}
 	
 
+	@XmlAttribute
 	public final String getCertificacion() {
 		return this.certificacionProperty().get();
 	}

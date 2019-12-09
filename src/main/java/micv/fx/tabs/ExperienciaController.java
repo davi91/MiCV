@@ -2,17 +2,29 @@ package micv.fx.tabs;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import micv.fx.classes.Experiencia;
+import micv.fx.classes.Titulo;
+import micv.fx.utils.InsertTableDialog;
+import micv.fx.utils.LocalDateTableCell;
 
 
 public class ExperienciaController implements Initializable {
@@ -32,10 +44,16 @@ public class ExperienciaController implements Initializable {
     @FXML
     private Button removeBt;
     
+    @FXML
+    private TableColumn<Titulo, LocalDate> desdeCol;
+
+    @FXML
+    private TableColumn<Titulo, LocalDate> hastaCol;
+    
     //-------------------------------------------------------------------------
     
     // Model
-    private ObjectProperty<Experiencia> experiencia = new SimpleObjectProperty<Experiencia>();
+    private ListProperty<Experiencia> listExperiencia = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
     
 	public ExperienciaController() throws IOException {
 		
@@ -46,29 +64,63 @@ public class ExperienciaController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+
+		desdeCol.setCellFactory(LocalDateTableCell::new); 
+		hastaCol.setCellFactory(LocalDateTableCell::new);
 		
+		experienciaTbl.itemsProperty().bindBidirectional(listExperiencia);
+		
+		addBt.setOnAction( evt -> onAddAction() );
+		removeBt.setOnAction( evt -> onRemoveAction() );
+		
+		removeBt.disableProperty().bind( experienciaTbl.getSelectionModel().selectedItemProperty().isNull() );		
+		
+	}
+	
+	private void onRemoveAction() {
+		
+		Experiencia experiencia = experienciaTbl.getSelectionModel().getSelectedItem();
+		
+		if( experiencia != null ) {
+			
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Eliminar experiencia");
+			alert.setContentText(String.format("¿Está seguro de eliminar %s?", experiencia.getDenominacion()));
+			
+			if( alert.showAndWait().get() == ButtonType.OK ) {
+				listExperiencia.remove(experiencia);
+			}
+		}
+	}
+
+	private void onAddAction() {
+
+		InsertTableDialog<Experiencia> dialog = new InsertTableDialog<>("Añadir experiencia", "Empleador", Experiencia.class);
+		
+		Optional<Experiencia> experiencia = dialog.showAndWait();
+		
+		if( experiencia.isPresent() ) {
+			listExperiencia.add(experiencia.get());
+		}
 	}
 	
 	public HBox getRootView() {
 		return view;
 	}
 
-	public final ObjectProperty<Experiencia> contactoProperty() {
-		return this.experiencia;
+	public final ListProperty<Experiencia> listExperienciaProperty() {
+		return this.listExperiencia;
 	}
 	
 
-	public final Experiencia getContacto() {
-		return this.contactoProperty().get();
+	public final ObservableList<Experiencia> getListExperiencia() {
+		return this.listExperienciaProperty().get();
 	}
 	
 
-	public final void setContacto(final Experiencia contacto) {
-		this.contactoProperty().set(contacto);
+	public final void setListExperiencia(final ObservableList<Experiencia> listExperiencia) {
+		this.listExperienciaProperty().set(listExperiencia);
 	}
-	
-
-	
+		
 
 }

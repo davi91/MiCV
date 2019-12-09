@@ -119,6 +119,10 @@ public class ContactoController implements Initializable {
 		tlf_removeBt.setOnAction( evt -> onRemoveAction(evt));
 		email_removeBt.setOnAction( evt -> onRemoveAction(evt));
 		web_removeBt.setOnAction( evt -> onRemoveAction(evt));
+		
+		tlf_removeBt.disableProperty().bind( tlfTable.getSelectionModel().selectedItemProperty().isNull() );
+		email_removeBt.disableProperty().bind( emailTable.getSelectionModel().selectedItemProperty().isNull() );
+		web_removeBt.disableProperty().bind( webTable.getSelectionModel().selectedItemProperty().isNull() );
 	}
 	
 	

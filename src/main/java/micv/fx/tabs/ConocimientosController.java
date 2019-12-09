@@ -3,6 +3,7 @@ package micv.fx.tabs;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXMLLoader;
@@ -12,13 +13,25 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import micv.fx.classes.Conocimiento;
+import micv.fx.classes.Experiencia;
+import micv.fx.classes.Idioma;
+import micv.fx.utils.ConocimientoDialog;
 
 public class ConocimientosController implements Initializable {
 
+	public enum eTipoConocimiento {
+		
+		CON_ESTANDAR,
+		CON_IDIOMA
+	};
+	
 	// View : FXML
 	
 	//-------------------------------------------------------------------------
@@ -51,9 +64,54 @@ public class ConocimientosController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		conocimientoTbl.itemsProperty().bind(conocimientos);
+		
+		conocimientoTbl.itemsProperty().bindBidirectional(conocimientos);
+		
+		addKBt.setOnAction( evt -> onAddAction(eTipoConocimiento.CON_ESTANDAR) );
+		addLBt.setOnAction( evt -> onAddAction(eTipoConocimiento.CON_IDIOMA) );
+		
+		delBt.setOnAction( evt -> onRemoveAction() );
+		
+		delBt.disableProperty().bind( conocimientoTbl.getSelectionModel().selectedItemProperty().isNull() );
 	}
 	
+	private void onRemoveAction() {
+
+		Conocimiento conocimiento = conocimientoTbl.getSelectionModel().getSelectedItem();
+		
+		if( conocimiento != null ) {
+			
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Eliminar conocimiento");
+			alert.setContentText(String.format("¿Está seguro de eliminar %s?", conocimiento.getDenominacion()));
+			
+			if( alert.showAndWait().get() == ButtonType.OK ) {
+				conocimientos.remove(conocimiento);
+			}
+		}
+	}
+
+	private void onAddAction( eTipoConocimiento tipo ) {
+
+		ConocimientoDialog dialog = new ConocimientoDialog(tipo);
+		
+		if( tipo == eTipoConocimiento.CON_ESTANDAR ) {
+			Optional<Conocimiento> conocimiento = dialog.showAndWait();
+			
+			if( conocimiento.isPresent() ) {
+				conocimientos.add(conocimiento.get());
+			}
+			
+		} else {
+			Optional<Conocimiento> idioma = dialog.showAndWait();
+			
+			if( idioma.isPresent() ) {
+				Idioma nuevoIdioma = (Idioma) idioma.get();
+				conocimientos.add(nuevoIdioma); // Para los idiomas es igual
+			}
+		}
+	}
+
 	public HBox getRootView() {
 		return view;
 	}

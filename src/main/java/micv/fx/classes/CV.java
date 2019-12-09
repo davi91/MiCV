@@ -19,8 +19,8 @@ public class CV {
 	private ObjectProperty<Personal> personal = new SimpleObjectProperty<Personal>();
 	
 	private ListProperty<Titulo> formacion = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
-	private ListProperty<Experiencia> experiencia = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
-	private ListProperty<Idioma> habilidades = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
+	private ListProperty<Experiencia> experiencias = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
+	private ListProperty<Conocimiento> habilidades = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
 
 	private ObjectProperty<Contacto> contacto = new SimpleObjectProperty<Contacto>();
 
@@ -32,7 +32,7 @@ public class CV {
 		this.personal.set(personal);
 		this.contacto.set(contacto);
 		this.formacion.addAll(formacion);
-		this.experiencia.addAll(experiencias);
+		this.experiencias.addAll(experiencias);
 		this.habilidades.addAll(idiomas);
 	}
 
@@ -68,34 +68,34 @@ public class CV {
 	}
 	
 
-	public final ListProperty<Experiencia> experienciaProperty() {
-		return this.experiencia;
+	public final ListProperty<Experiencia> experienciasProperty() {
+		return this.experiencias;
 	}
 	
 
 	@XmlElement
-	public final ObservableList<Experiencia> getExperiencia() {
-		return this.experienciaProperty().get();
+	public final ObservableList<Experiencia> getExperiencias() {
+		return this.experienciasProperty().get();
 	}
 	
 
-	public final void setExperiencia(final ObservableList<Experiencia> experiencia) {
-		this.experienciaProperty().set(experiencia);
+	public final void setExperiencias(final ObservableList<Experiencia> experiencia) {
+		this.experienciasProperty().set(experiencia);
 	}
 	
 
-	public final ListProperty<Idioma> habilidadesProperty() {
+	public final ListProperty<Conocimiento> habilidadesProperty() {
 		return this.habilidades;
 	}
 	
 
 	@XmlElement
-	public final ObservableList<Idioma> getHabilidades() {
+	public final ObservableList<Conocimiento> getHabilidades() {
 		return this.habilidadesProperty().get();
 	}
 	
 
-	public final void setHabilidades(final ObservableList<Idioma> habilidades) {
+	public final void setHabilidades(final ObservableList<Conocimiento> habilidades) {
 		this.habilidadesProperty().set(habilidades);
 	}
 	

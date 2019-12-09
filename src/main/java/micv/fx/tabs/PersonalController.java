@@ -107,16 +107,20 @@ public class PersonalController implements Initializable {
 		
 		// Bindeamos los paises a su lista correspondiente
 		paisCbox.itemsProperty().bind(paisesList);
-		
+
 		// Cargamos los paises
 		loadPaises();
 		
+
 		// Cada vez que actualizamos el objeto, avisamos
 		personal.addListener((o, ol, nv) -> updateBinds(ol, nv));
 		personal.set(new Personal()); // Empezamos con uno nuevo
 		
 		addBt.setOnAction( evt -> onAddAction() );
 		removeBt.setOnAction( evt -> onRemoveAction() );
+		
+		removeBt.disableProperty().bind( nacionalidadList.getSelectionModel().selectedItemProperty().isNull() );
+		
 	}
 
 	/**
@@ -292,6 +296,8 @@ public class PersonalController implements Initializable {
 		
 		nacionalidadList.itemsProperty().bind(nuevoPersonal.nacionaliadesProperty());
 		
+		// Al bindear se me ajusta la selección, debemos indicar que no hay nada seleccionado
+		paisCbox.setValue(null);
 	}
 	
 	public GridPane getRootView() {

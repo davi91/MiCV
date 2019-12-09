@@ -4,32 +4,33 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.cell.*?>
 
-<HBox fx:id="view" spacing="5.0"
-	xmlns:fx="http://javafx.com/fxml/1"
-	xmlns="http://javafx.com/javafx/11.0.1">
+<HBox fx:id="view" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<TableView fx:id="formacionTbl" HBox.hgrow="ALWAYS">
+		<TableView fx:id="formacionTbl" editable="true" HBox.hgrow="ALWAYS">
 			<columns>
-				<TableColumn prefWidth="75.0" text="Desde">
+				<TableColumn fx:id="desdeCol" prefWidth="75.0" text="Desde">
 					<cellValueFactory>
 						<PropertyValueFactory property="desde" />
 					</cellValueFactory>
 				</TableColumn>
-				<TableColumn prefWidth="75.0" text="Hasta">
+				<TableColumn fx:id="hastaCol" prefWidth="75.0" text="Hasta">
 					<cellValueFactory>
 						<PropertyValueFactory property="hasta" />
 					</cellValueFactory>
 				</TableColumn>
 				<TableColumn prefWidth="75.0" text="Denominación">
+				<cellFactory><TextFieldTableCell fx:factory="forTableColumn" /></cellFactory>
 					<cellValueFactory>
 						<PropertyValueFactory property="denominacion" />
 					</cellValueFactory>
 				</TableColumn>
 				<TableColumn prefWidth="75.0" text="Organizador">
+				<cellFactory><TextFieldTableCell fx:factory="forTableColumn" /></cellFactory>
 					<cellValueFactory>
 						<PropertyValueFactory property="organizador" />
 					</cellValueFactory>
@@ -41,10 +42,8 @@
 		</TableView>
 		<VBox spacing="5.0">
 			<children>
-				<Button fx:id="addBt" maxWidth="1.7976931348623157E308"
-					mnemonicParsing="false" text="Añadir" />
-				<Button fx:id="removeBt" maxWidth="1.7976931348623157E308"
-					mnemonicParsing="false" text="Eliminar" />
+				<Button fx:id="addBt" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Añadir" />
+				<Button fx:id="removeBt" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Eliminar" />
 			</children>
 			<padding>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

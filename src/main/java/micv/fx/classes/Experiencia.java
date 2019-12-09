@@ -36,6 +36,7 @@ public class Experiencia {
 		return this.desde;
 	}
 	
+	
 	@XmlAttribute
 	@XmlJavaTypeAdapter(value = DateAdapter.class)
 	public final LocalDate getDesde() {
@@ -64,7 +65,6 @@ public class Experiencia {
 		return this.denominacion;
 	}
 	
-	@XmlAttribute
 	public final String getDenominacion() {
 		return this.denominacionProperty().get();
 	}
@@ -77,7 +77,7 @@ public class Experiencia {
 		return this.empleador;
 	}
 	
-	@XmlAttribute
+
 	public final String getEmpleador() {
 		return this.empleadorProperty().get();
 	}
@@ -86,6 +86,6 @@ public class Experiencia {
 	public final void setEmpleador(final String empleador) {
 		this.empleadorProperty().set(empleador);
 	}
-		
 	
+		
 }

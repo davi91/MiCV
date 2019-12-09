@@ -1,17 +1,24 @@
 package micv.fx.classes;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import micv.fx.classes.Telefono.TipoTelefono;
 
 @XmlType
+@XmlSeeAlso({(Idioma.class)})
 public class Conocimiento {
 
-	protected enum Nivel {
+	public enum Nivel {
 		
 		BASICO,
 		MEDIO,
@@ -29,6 +36,14 @@ public class Conocimiento {
 		this.nivel.set(nivel);
 	}
 
+	public static ObservableList<Nivel> getNiveles() {
+		
+		ObservableList<Nivel> niveles = FXCollections.observableArrayList(new ArrayList<>());
+		niveles.addAll(Nivel.BASICO, Nivel.MEDIO, Nivel.AVANZADO);
+		
+		return niveles;
+	}
+	
 	public final StringProperty denominacionProperty() {
 		return this.denominacion;
 	}

@@ -111,6 +111,12 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		}
 		
+		// Las listas de formación, experiencia y conociminetos las 
+		// bindeamos directamente a las listas de las pestañas, ya
+		// que no forman parte un único objeto
+		cv.set(new CV());
+		formacionController.titulosProperty().bindBidirectional(cv.get().formacionProperty());
+		
 		// Ahora cargamos los eventos de los menus
 		m_abrir.setOnAction( evt -> onMenuOpen() );
 		m_guardarOtro.setOnAction( evt -> onMenuSaveOther() );
@@ -178,6 +184,11 @@ public class MainController implements Initializable {
 		
 		Contacto contacto = cv.get().getContacto();
 		contactoController.setContacto(contacto);
+		
+		// Ahora bindeamos las listas de las otras pestañas para tenerlos actualizados
+		formacionController.titulosProperty().bindBidirectional(cv.get().formacionProperty());
+		experienciaController.listExperienciaProperty().bindBidirectional(cv.get().experienciasProperty());
+		conocimientosController.conocimientosProperty().bindBidirectional(cv.get().habilidadesProperty());
 	}
 
 	public BorderPane getRootView() {
