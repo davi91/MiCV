@@ -16,7 +16,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import micv.fx.classes.Conocimiento;
@@ -50,6 +53,9 @@ public class ConocimientosController implements Initializable {
     @FXML
     private Button delBt;
     
+    @FXML
+    private TableColumn<Conocimiento, Conocimiento.Nivel> nivelCol;
+    
     //-------------------------------------------------------------------------
     
     // Model
@@ -65,6 +71,8 @@ public class ConocimientosController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		// Ajustamos la columna de la tabla nivel manualmente por ser un ComboBox
+		nivelCol.setCellFactory(ComboBoxTableCell.forTableColumn(Conocimiento.getNiveles()));
 		conocimientoTbl.itemsProperty().bindBidirectional(conocimientos);
 		
 		addKBt.setOnAction( evt -> onAddAction(eTipoConocimiento.CON_ESTANDAR) );

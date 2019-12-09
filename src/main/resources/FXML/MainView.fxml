@@ -41,7 +41,7 @@
                         </ImageView>
                      </graphic>
                   </MenuItem>
-                  <MenuItem fx:id="m_guradar" mnemonicParsing="false" text="Guardar">
+                  <MenuItem fx:id="m_guardar" mnemonicParsing="false" text="Guardar">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>

@@ -5,11 +5,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -44,7 +48,7 @@ public class MainController implements Initializable {
     private MenuItem m_abrir;
 
     @FXML
-    private MenuItem m_guradar;
+    private MenuItem m_guardar;
 
     @FXML
     private MenuItem m_guardarOtro;
@@ -79,6 +83,8 @@ public class MainController implements Initializable {
 	private FormacionController formacionController;
 	private ExperienciaController experienciaController;
 	private ConocimientosController conocimientosController;
+	
+	private File currentFile;
 	
 	public MainController() throws IOException {
 		
@@ -120,11 +126,50 @@ public class MainController implements Initializable {
 		loadMainData();
 		
 		// Ahora cargamos los eventos de los menus
+		m_nuevo.setOnAction(evt -> onMenuNew() );
 		m_abrir.setOnAction( evt -> onMenuOpen() );
+		m_guardar.setOnAction( evt -> onMenuSave() );
 		m_guardarOtro.setOnAction( evt -> onMenuSaveOther() );
-		
+		m_salir.setOnAction( evt -> onMenuExit() );	
 	}
 	
+	private void onMenuNew() {
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Nuevo documento");
+		alert.setHeaderText("Establecer nuevo documento .cv");
+		alert.setContentText("¿ Está seguro de crear un nuevo documento ?");
+		
+		if( alert.showAndWait().get() == ButtonType.OK ) {
+			// Limpiamos todos los datos
+			cv.set(new CV());
+			cv.get().setPersonal(new Personal());
+			cv.get().setContacto(new Contacto());
+			loadMainData();
+		}
+		
+		currentFile = null;
+	}
+
+	private void onMenuExit() {
+		Platform.exit();
+	}
+
+	private void onMenuSave() {
+			
+		// Si no estamos trabajando sobre un fichero guardamos en un nuevo archivo
+		if( currentFile == null ) {
+			onMenuSaveOther();
+			return;
+		}
+		try {
+			JAXBUtils.save(cv.get(), currentFile);
+				
+		} catch (Exception e) {
+			sendError("Error al guardar el fichero: " + currentFile.getName());
+		}
+	}
+
 	private void onMenuSaveOther() {
 		
 		FileChooser browser = new FileChooser();
@@ -140,9 +185,9 @@ public class MainController implements Initializable {
 			
 			try {
 				JAXBUtils.save(cv.get(), file);
+				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				sendError("Error al guardar el fichero: " + file.getName());
 			}
 		}
 	}
@@ -154,25 +199,23 @@ public class MainController implements Initializable {
 		browser.setTitle("Abrir CV");
 		browser.setInitialDirectory(new File(System.getProperty("user.dir") + "/files"));
 		
-		File file = browser.showOpenDialog(getRootView().getScene().getWindow());
+		currentFile = browser.showOpenDialog(getRootView().getScene().getWindow());
 		
-		if( file != null ) {
+		if( currentFile != null ) {
 			
 			// Ahora podemos empezar a cargar el archivo
 			// Usamos el JAXB para leer el XML
 			
 			try {
 				
-				CV myCV = JAXBUtils.load(CV.class, file);
+				CV myCV = JAXBUtils.load(CV.class, currentFile);
 				
 				// Ahora lo cargamos en nuestro ObjectProperty
 				cv.set(myCV);
 				loadMainData();
 				
 			} catch (Exception e) {
-				
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				sendError("Error al abrir el fichero: " + currentFile.getName());
 			}
 		}
 	}
@@ -191,6 +234,17 @@ public class MainController implements Initializable {
 		formacionController.titulosProperty().bindBidirectional(cv.get().formacionProperty());
 		experienciaController.listExperienciaProperty().bindBidirectional(cv.get().experienciasProperty());
 		conocimientosController.conocimientosProperty().bindBidirectional(cv.get().habilidadesProperty());
+	}
+	
+	public static void sendError( String msg ) {
+		
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("ERROR FATAL");
+		alert.setContentText("Error en el lector de CV");
+		alert.setContentText(msg);
+		
+		alert.showAndWait();
+		Platform.exit();
 	}
 
 	public BorderPane getRootView() {

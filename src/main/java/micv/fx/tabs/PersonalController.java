@@ -31,6 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import micv.fx.classes.Nacionalidad;
 import micv.fx.classes.Personal;
+import micv.fx.main.MainController;
 
 /**
  * Controlador de la pestaña de Personal, que carga sus propios datos
@@ -148,7 +149,7 @@ public class PersonalController implements Initializable {
 			}
 			
 		} catch(IOException e ) {
-			e.printStackTrace();
+			MainController.sendError("Error al abrir el archivo de files/nacionaliddades.csv");
 			
 		} finally {
 			
@@ -166,6 +167,7 @@ public class PersonalController implements Initializable {
 				}
 				
 			} catch (IOException e) {
+				MainController.sendError("Error al cerrar el archivo de files/nacionaliddades.csv");
 			}
 		}		
 	}
@@ -192,7 +194,7 @@ public class PersonalController implements Initializable {
 			}
 			
 		} catch(IOException e ) {
-			e.printStackTrace();
+			MainController.sendError("Error al abrir el archivo de files/paises.csv");
 			
 		} finally {
 			
@@ -210,6 +212,7 @@ public class PersonalController implements Initializable {
 				}
 				
 			} catch (IOException e) {
+				MainController.sendError("Error al cerrar el archivo de files/paises.csv");
 			}
 		}
 		
@@ -280,6 +283,7 @@ public class PersonalController implements Initializable {
 			datePicker.valueProperty().unbindBidirectional(oldPersonal.fechaNacimientoProperty());
 			dniTxt.textProperty().unbindBidirectional(oldPersonal.identificacionProperty());
 			dirTxt.textProperty().unbindBidirectional(oldPersonal.direccionProperty());
+			paisCbox.valueProperty().unbindBidirectional(oldPersonal.paisProperty());
 		}
 		
 		// Bidireccional, puesto que queremos añadir cambios en el CV de una persona
@@ -294,10 +298,7 @@ public class PersonalController implements Initializable {
 		Bindings.bindBidirectional(dirTxt.textProperty(), nuevoPersonal.direccionProperty());
 		Bindings.bindBidirectional(paisCbox.valueProperty(), nuevoPersonal.paisProperty());
 		
-		nacionalidadList.itemsProperty().bind(nuevoPersonal.nacionaliadesProperty());
-		
-		// Al bindear se me ajusta la selección, debemos indicar que no hay nada seleccionado
-		paisCbox.setValue(null);
+		nacionalidadList.itemsProperty().bindBidirectional(nuevoPersonal.nacionaliadesProperty());
 	}
 	
 	public GridPane getRootView() {
