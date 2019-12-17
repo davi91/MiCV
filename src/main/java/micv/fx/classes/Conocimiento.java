@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
 import micv.fx.classes.Telefono.TipoTelefono;
 
 @XmlType
-@XmlSeeAlso({(Idioma.class)})
+//@XmlSeeAlso({(Idioma.class)}) Por alguna razón a Maven no le gusta
 public class Conocimiento {
 
 	public enum Nivel {
